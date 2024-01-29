@@ -4,8 +4,8 @@
 public class PlayerAnimation : MonoBehaviour
 {
     private readonly int Walk = Animator.StringToHash(nameof(Walk));
-    private readonly int Run = Animator.StringToHash(nameof(Run));
     private readonly int Jump = Animator.StringToHash(nameof(Jump));
+    private readonly int Run = Animator.StringToHash(nameof(Run));
 
     private Animator _animator;
 

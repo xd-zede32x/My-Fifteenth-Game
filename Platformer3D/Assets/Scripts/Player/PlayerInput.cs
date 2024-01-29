@@ -2,25 +2,26 @@
 
 public class PlayerInput : MonoBehaviour
 {
-    [SerializeField] private PlayerMovement _playerMovement;
+    [SerializeField] private PlayerJump _playerJump;
+    [SerializeField] private PlayerMover _playerMovement;
     [SerializeField] private PlayerAnimation _playerAnimation;
 
-    [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
+    [SerializeField] private float _movementSpeed;
 
     private void Update()
     {
-        if (_playerMovement == null || _playerAnimation == null)
-            return;
-
         UserInputWalk(KeyCode.A, KeyCode.D);
         UserInputJump(KeyCode.Space);
+
+        if (_playerMovement == null || _playerAnimation == null)
+            return;
     }
 
     private void UserInputWalk(KeyCode leftKey, KeyCode rightKey)
     {
         bool isWalking = Input.GetKey(leftKey) || Input.GetKey(rightKey);
-        _playerMovement.Move(isWalking ? _speed : 0f);
+        _playerMovement.Move(isWalking ? _movementSpeed : 0f);
 
         _playerAnimation.SetWalkAnimation(isWalking);
     }
@@ -32,7 +33,7 @@ public class PlayerInput : MonoBehaviour
 
         if (shouldJump)
         {
-            _playerMovement.Jump(_jumpForce);
+            _playerJump.Jump(_jumpForce);
             _playerAnimation.SetJumpAnimation(true);
         }
 
