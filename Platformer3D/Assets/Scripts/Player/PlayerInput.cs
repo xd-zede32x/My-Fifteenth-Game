@@ -1,39 +1,50 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovement))]
-[RequireComponent(typeof(PlayerAnimation))]
 public class PlayerInput : MonoBehaviour
 {
-    private PlayerMovement _playerMovement;
-    private PlayerAnimation _playerAnimation;
+    [SerializeField] private PlayerMovement _playerMovement;
+    [SerializeField] private PlayerAnimation _playerAnimation;
 
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
 
-    private void Start()
-    {
-        _playerMovement = GetComponent<PlayerMovement>();
-        _playerAnimation = GetComponent<PlayerAnimation>();
-    }
-
     private void Update()
     {
-        if (Input.GetKey(KeyCode.A))
-        {
-            _playerMovement.Move(-_speed);
-            _playerAnimation.PlayerWalk();
-        }
+        if (_playerMovement == null || _playerAnimation == null)
+            return;
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            _playerMovement.Move(-_speed);
-            _playerAnimation.PlayerWalk();
-        }
+        UserInputWalk(KeyCode.A, KeyCode.D);
+        UserInputJump(KeyCode.Space);
+    }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+    private void UserInputWalk(KeyCode leftKey, KeyCode rightKey)
+    {
+        bool isWalking = Input.GetKey(leftKey) || Input.GetKey(rightKey);
+        _playerMovement.Move(isWalking ? _speed : 0f);
+
+        _playerAnimation.SetWalkAnimation(isWalking);
+    }
+
+    private void UserInputJump(KeyCode key)
+    {
+        bool isGrounded = IsGrounded();
+        bool shouldJump = isGrounded && Input.GetKeyDown(key);
+
+        if (shouldJump)
         {
             _playerMovement.Jump(_jumpForce);
-            _playerAnimation.PlayerJump();
+            _playerAnimation.SetJumpAnimation(true);
         }
+
+        else
+            _playerAnimation.SetJumpAnimation(false);
+    }
+
+    private bool IsGrounded()
+    {
+        float recastDistance = 0.1f;
+        RaycastHit hit;
+
+        return Physics.Raycast(transform.position, Vector3.down, out hit, recastDistance);
     }
 }

@@ -12,12 +12,12 @@ public class PlayerMovement : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    public void Move(float speed)
+    public void Move(float movementSpeed)
     {
-        float horizontal = Input.GetAxis(Horizontal);
+        float horizontal = Input.GetAxisRaw(Horizontal);
         Vector3 movement = new Vector3(horizontal, 0f);
 
-        _rigidbody.MovePosition(_rigidbody.position + -movement * speed * Time.deltaTime);
+        _rigidbody.MovePosition(_rigidbody.position + movement * movementSpeed * Time.deltaTime);
     }
 
     public void Jump(float jumpForce)
