@@ -12,9 +12,6 @@ public class StartMenu : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
-
-        if (_animator == null)
-            return;
     }
 
     private void Update()
@@ -26,6 +23,9 @@ public class StartMenu : MonoBehaviour
     public void Open()
     {
         _animator.SetTrigger(OpenPanel);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void Exit()
