@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(float movementSpeed)
     {
-        float horizontal = Input.GetAxisRaw(Horizontal);
+        float horizontal = Input.GetAxis(Horizontal);
         Vector3 movement = new Vector3(horizontal, 0f);
 
         _rigidbody.MovePosition(_rigidbody.position + movement * movementSpeed * Time.fixedDeltaTime);

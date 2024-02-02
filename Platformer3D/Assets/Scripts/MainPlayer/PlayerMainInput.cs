@@ -3,7 +3,6 @@
 public class PlayerMainInput : MonoBehaviour
 {
     [SerializeField] private PlayerSitDown _playerSitDown;
-    [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private PlayerInputJump _playerInputJump;
     [SerializeField] private PlayerAnimations _playerAnimation;
     [SerializeField] private PlayerInputMovement _playerInputMovement;

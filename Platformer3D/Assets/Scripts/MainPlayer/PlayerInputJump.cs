@@ -1,39 +1,41 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(PlayerJump))]
 public class PlayerInputJump : MonoBehaviour
 {
-    private PlayerJump _playerJump;
     private Rigidbody _rigidbody;
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _playerJump = GetComponent<PlayerJump>();
     }
 
     public void InputJump(PlayerAnimations playerAnimation, float jumpForce)
     {
-        bool shouldJump = IsGrounded()  && Input.GetKeyDown(KeyCode.Space);
+        bool shouldJump = IsGrounded() && Input.GetKeyDown(KeyCode.Space);
 
         if (shouldJump)
         {
-            _playerJump.Jump(_rigidbody, jumpForce);
-            playerAnimation.SetJumpAnimations(true);
+            Jump(_rigidbody, jumpForce);
+            playerAnimation.SetAnimations(PlayerAnimationType.Jump, true);
         }
 
         else
         {
-            playerAnimation.SetJumpAnimations(false);
+            playerAnimation.SetAnimations(PlayerAnimationType.Jump, false);
         }
+    }
+
+    private void Jump(Rigidbody rigidbody, float jumpForce)
+    {
+        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     private bool IsGrounded()
     {
         float recastDistance = 0.1f;
-        RaycastHit hits;
+        RaycastHit hit;
 
-        return Physics.Raycast(transform.position, Vector3.down, out hits, recastDistance);
+        return Physics.Raycast(transform.position, Vector3.down, out hit, recastDistance);
     }
 }

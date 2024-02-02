@@ -3,8 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuGame : MonoBehaviour
 {
-    private const float MaxAlpha = 1;
-    private const float MinAlpha = 0;
+    private const float MaxChangeAlpha = 1;
+    private const float MinChangeAlpha = 0;
         
     [SerializeField] private GameObject _panel;
     [SerializeField] private CanvasGroup _canvasGroup;
@@ -17,21 +17,19 @@ public class MainMenuGame : MonoBehaviour
 
     public void OpenPanel()
     {
-        SetActivePanel(MaxAlpha, true);
-
+        SetActivePanel(MaxChangeAlpha, true);
         SetDefaultCursorState(CursorLockMode.None, true);
     }
 
     public void HidePanel()
     {
-        SetActivePanel(MinAlpha, false);
-
+        SetActivePanel(MinChangeAlpha, false);
         SetDefaultCursorState(CursorLockMode.Locked, false);
     }
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void Exit()

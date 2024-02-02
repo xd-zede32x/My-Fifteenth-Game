@@ -1,40 +1,32 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerRotation))]
 public class PlayerInputMovement : MonoBehaviour
 {
-    private PlayerMovement _movement;
+    private const float MaxRotateAngle = 90f;
+    private const float MinRotateAngle = -90f;
+
+    private PlayerRotation _rotation;
 
     private void Start()
     {
-        _movement = GetComponent<PlayerMovement>();
+        _rotation = GetComponent<PlayerRotation>();
     }
 
     public void InputMovement(PlayerAnimations playerAnimation, float walkSpeed, float runSpeed)
     {
-        bool isMoving = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D);
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
 
-        if (isMoving)
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
-            if (isRunning)
-            {
-                playerAnimation.SetRunAnimations(true);
-                _movement.Move(runSpeed);
-            }
-
-            else
-            {
-                playerAnimation.SetRunAnimations(false);
-                playerAnimation.SetWalkAnimations(true);
-                _movement.Move(walkSpeed);
-            }
+            float rotationY = Input.GetKey(KeyCode.A) ? MinRotateAngle : MaxRotateAngle;
+            _rotation.MoveAndSetAnimations(rotationY, playerAnimation, isRunning, isRunning ? runSpeed : walkSpeed);
         }
 
         else
         {
-            playerAnimation.SetWalkAnimations(false);
-            playerAnimation.SetRunAnimations(false);
+            playerAnimation.SetAnimations(PlayerAnimationType.Run, false);
+            playerAnimation.SetAnimations(PlayerAnimationType.Walk, false);
         }
     }
 }

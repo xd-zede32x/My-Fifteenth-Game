@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SpikeDeath : MonoBehaviour
 {
-    private const float LifeTime = 5f;
+    private const float PlayerLifeTime = 5f;
     private const float PanelWaitingTime = 3f;
 
     [SerializeField] private CanvasGroup _canvasGroup;
@@ -13,15 +13,10 @@ public class SpikeDeath : MonoBehaviour
     {
         if (other.TryGetComponent(out PlayerAnimations animations))
         {
-            animations.SetDieAnimations(true);
+            animations.SetAnimations(PlayerAnimationType.Die, true);
 
             StartCoroutine(OpenPanel());
-            Destroy(this, LifeTime);
-        }
-
-        else
-        {
-            animations.SetDieAnimations(false);
+            Destroy(gameObject, PlayerLifeTime);
         }
     }
 
